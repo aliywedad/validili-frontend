@@ -1,3 +1,5 @@
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
+
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {
@@ -24,12 +26,12 @@ async function handle<T>(res: Response): Promise<T> {
 }
 
 export async function apiGet<T>(path: string): Promise<T> {
-  const res = await fetch(`/api${path}`, { credentials: 'include' });
+  const res = await fetch(`${BASE_URL}/api${path}`, { credentials: 'include' });
   return handle<T>(res);
 }
 
 export async function apiJson<T>(path: string, method: string, body: unknown): Promise<T> {
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${BASE_URL}/api${path}`, {
     method,
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
@@ -39,7 +41,7 @@ export async function apiJson<T>(path: string, method: string, body: unknown): P
 }
 
 export async function apiForm<T>(path: string, method: string, formData: FormData): Promise<T> {
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${BASE_URL}/api${path}`, {
     method,
     credentials: 'include',
     body: formData,
@@ -48,6 +50,6 @@ export async function apiForm<T>(path: string, method: string, formData: FormDat
 }
 
 export async function apiDelete<T>(path: string): Promise<T> {
-  const res = await fetch(`/api${path}`, { method: 'DELETE', credentials: 'include' });
+  const res = await fetch(`${BASE_URL}/api${path}`, { method: 'DELETE', credentials: 'include' });
   return handle<T>(res);
 }
