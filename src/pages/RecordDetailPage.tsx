@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faLocationDot, faTrash } from '@fortawesome/free-solid-svg-icons';
 import type { IdCardRecord } from '../types';
-import { apiGet, apiDelete, ApiError } from '../lib/api';
+import { apiGet, apiDelete, ApiError, uploadUrl } from '../lib/api';
 import { confirmDelete, showErrorAlert, showSuccessToast } from '../lib/alerts';
 import { useAuth } from '../context/AuthContext';
 import { DOCUMENT_TYPE_CONFIG } from '../lib/documentTypes';
@@ -140,7 +140,7 @@ export default function RecordDetailPage() {
       <div className="mb-4 flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         {record.personImagePath ? (
           <img
-            src={`/api/uploads/${record.personImagePath}`}
+            src={uploadUrl(record.personImagePath)}
             alt={record.fullName}
             className="h-20 w-20 flex-shrink-0 rounded-full object-cover ring-2 ring-slate-100"
           />
@@ -171,7 +171,7 @@ export default function RecordDetailPage() {
         <div className="mb-4 flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
           {record.company.logoPath ? (
             <img
-              src={`/api/uploads/${record.company.logoPath}`}
+              src={uploadUrl(record.company.logoPath)}
               alt={record.company.name}
               className="h-10 w-10 rounded-lg object-cover"
             />
@@ -202,21 +202,21 @@ export default function RecordDetailPage() {
       </div>
 
       <div className={`mb-4 grid gap-3 ${record.backImagePath ? 'grid-cols-2' : 'grid-cols-1'}`}>
-        <a href={`/api/uploads/${record.frontImagePath}`} target="_blank" rel="noopener noreferrer">
+        <a href={uploadUrl(record.frontImagePath)} target="_blank" rel="noopener noreferrer">
           <p className="mb-1 text-xs font-medium text-slate-500">
             {record.backImagePath ? 'Recto' : SINGLE_FACE_LABELS[record.documentType] ?? 'Photo du document'}
           </p>
           <img
-            src={`/api/uploads/${record.frontImagePath}`}
+            src={uploadUrl(record.frontImagePath)}
             alt="Recto du document"
             className="aspect-[3/2] w-full rounded-lg border border-slate-200 object-cover"
           />
         </a>
         {record.backImagePath && (
-          <a href={`/api/uploads/${record.backImagePath}`} target="_blank" rel="noopener noreferrer">
+          <a href={uploadUrl(record.backImagePath)} target="_blank" rel="noopener noreferrer">
             <p className="mb-1 text-xs font-medium text-slate-500">Verso</p>
             <img
-              src={`/api/uploads/${record.backImagePath}`}
+              src={uploadUrl(record.backImagePath)}
               alt="Verso du document"
               className="aspect-[3/2] w-full rounded-lg border border-slate-200 object-cover"
             />

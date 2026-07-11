@@ -1,5 +1,9 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
+export function uploadUrl(path: string): string {
+  return `${BASE_URL}/api/uploads/${path}`;
+}
+
 export class ApiError extends Error {
   status: number;
   constructor(status: number, message: string) {

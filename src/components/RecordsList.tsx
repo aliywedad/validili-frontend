@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import type { IdCardRecord } from '../types';
 import { DOCUMENT_TYPE_CONFIG } from '../lib/documentTypes';
+import { uploadUrl } from '../lib/api';
 import { ExpiryBadge, MinorBadge } from './StatusBadges';
 
 export default function RecordsList({ records }: { records: IdCardRecord[] }) {
@@ -22,7 +23,7 @@ export default function RecordsList({ records }: { records: IdCardRecord[] }) {
             >
               {record.personImagePath ? (
                 <img
-                  src={`/api/uploads/${record.personImagePath}`}
+                  src={uploadUrl(record.personImagePath)}
                   alt={record.fullName}
                   className="h-16 w-16 flex-shrink-0 rounded-full object-cover ring-2 ring-slate-100"
                 />

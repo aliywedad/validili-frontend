@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faCamera, faKey } from '@fortawesome/free-solid-svg-icons';
 import type { AuthUser, PaginatedRecords } from '../types';
 import { useAuth } from '../context/AuthContext';
-import { apiForm, apiJson, apiGet, ApiError } from '../lib/api';
+import { apiForm, apiJson, apiGet, ApiError, uploadUrl } from '../lib/api';
 import RecordsList from '../components/RecordsList';
 
 const RECENT_COUNT = 10;
@@ -80,7 +80,7 @@ export default function ProfilePage() {
         >
           {user?.profileImagePath ? (
             <img
-              src={`/api/uploads/${user.profileImagePath}`}
+              src={uploadUrl(user.profileImagePath)}
               alt={user.fullName}
               className="h-16 w-16 rounded-full object-cover"
             />

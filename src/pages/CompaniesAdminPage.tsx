@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBuilding } from '@fortawesome/free-solid-svg-icons';
 import type { Company } from '../types';
-import { apiGet, apiForm, ApiError } from '../lib/api';
+import { apiGet, apiForm, ApiError, uploadUrl } from '../lib/api';
 
 const EMPTY_NEW_COMPANY = { name: '', isAcceptMinor: false, isAcceptExpired: false };
 
@@ -119,7 +119,7 @@ export default function CompaniesAdminPage() {
             >
               {company.logoPath ? (
                 <img
-                  src={`/api/uploads/${company.logoPath}`}
+                  src={uploadUrl(company.logoPath)}
                   alt={company.name}
                   className="h-10 w-10 rounded-lg object-cover"
                 />

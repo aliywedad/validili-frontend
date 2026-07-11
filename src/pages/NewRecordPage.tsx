@@ -11,7 +11,7 @@ import {
   faWandMagicSparkles,
 } from '@fortawesome/free-solid-svg-icons';
 import type { AllIdCardFieldKey, Company, DocumentType, NewIdCardRecordInput, OcrExtractionResult } from '../types';
-import { apiForm, apiGet, ApiError } from '../lib/api';
+import { apiForm, apiGet, ApiError, uploadUrl } from '../lib/api';
 import { DOCUMENT_TYPE_CONFIG, DOCUMENT_TYPES } from '../lib/documentTypes';
 import ImagePickerField from '../components/ImagePickerField';
 import LoadingOverlay from '../components/LoadingOverlay';
@@ -264,7 +264,7 @@ export default function NewRecordPage() {
             >
               {company.logoPath ? (
                 <img
-                  src={`/api/uploads/${company.logoPath}`}
+                  src={uploadUrl(company.logoPath)}
                   alt={company.name}
                   className="h-12 w-12 flex-shrink-0 rounded-lg object-cover"
                 />
