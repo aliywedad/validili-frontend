@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faTrash } from '@fortawesome/free-solid-svg-icons';
 import type { Company } from '../types';
-import { apiGet, apiForm, ApiError, uploadUrl } from '../lib/api';
+import { apiGet, apiForm, apiDelete, ApiError, uploadUrl } from '../lib/api';
+import { confirmDelete, showErrorAlert, showSuccessToast } from '../lib/alerts';
 
 const EMPTY_NEW_COMPANY = { name: '', isAcceptMinor: false, isAcceptExpired: false };
 
@@ -55,6 +56,23 @@ export default function CompaniesAdminPage() {
       await loadCompanies();
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'La mise a jour a echoue');
+    }
+  }
+
+  async function handleDeleteCompany(company: Company) {
+    const confirmed = await confirmDelete({
+      title: `Supprimer ${company.name} ?`,
+      text: 'Cette entreprise sera definitivement supprimee. Les enregistrements existants seront conserves mais ne seront plus lies a une entreprise. Cette action est irreversible.',
+    });
+    if (!confirmed) return;
+
+    try {
+      await apiDelete(`/companies/${company.id}`);
+      showSuccessToast('Entreprise supprimee');
+      await loadCompanies();
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : 'La suppression a echoue';
+      showErrorAlert(message);
     }
   }
 
@@ -145,6 +163,14 @@ export default function CompaniesAdminPage() {
                 />
                 Cartes expirees
               </label>
+              <button
+                type="button"
+                onClick={() => handleDeleteCompany(company)}
+                title="Supprimer l'entreprise"
+                className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-600"
+              >
+                <FontAwesomeIcon icon={faTrash} className="h-4 w-4" />
+              </button>
             </li>
           ))}
         </ul>
